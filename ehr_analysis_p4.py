@@ -50,22 +50,72 @@ class Patient:
         '''initilized'''
         self.cursor = cursor
         self.ID = ID
+
         # fetch patient's DOB
         query = f"SELECT patients.PatientDateOfBirth FROM patients WHERE patients.PatientID = '{self.ID}'"
         cursor.execute(query)
-        self.DOB = cursor.fetchall()
+        self._DOB = cursor.fetchall()[0][0]
+        
         # calculate patients' age
         date_format = '%Y-%m-%d %H:%M:%S.%f'
         currentdate = datetime.today()
-        birthdate = datetime.strptime(self.DOB[0][0], date_format)
+        birthdate = datetime.strptime(self._DOB, date_format)
         delta = currentdate - birthdate
         self._age = round(delta.days/365)
 
+        # fetch patient's gender
+        query = f"SELECT patients.PatientGender FROM patients WHERE patients.PatientID = '{self.ID}'"
+        cursor.execute(query)
+        self._gender = cursor.fetchall()[0][0]
+
+        # fetch patient's race
+        query = f"SELECT patients.PatientRace FROM patients WHERE patients.PatientID = '{self.ID}'"
+        cursor.execute(query)
+        self._race = cursor.fetchall()[0][0]
+
+        # fetch patient's marital_status
+        query = f"SELECT patients.PatientMaritalStatus FROM patients WHERE patients.PatientID = '{self.ID}'"
+        cursor.execute(query)
+        self._marital_status = cursor.fetchall()[0][0]
+
+        # fetch patient's language
+        query = f"SELECT patients.PatientLanguage FROM patients WHERE patients.PatientID = '{self.ID}'"
+        cursor.execute(query)
+        self._language = cursor.fetchall()[0][0]
+
+        # fetch patient's poverty
+        query = f"SELECT patients.PatientPopulationPercentageBelowPoverty FROM patients WHERE patients.PatientID = '{self.ID}'"
+        cursor.execute(query)
+        self._poverty = pd.to_numeric(cursor.fetchall()[0][0])
+
+
     @property
     def age(self):
-        return self._age   
+        return self._age 
 
+    @property
+    def DOB(self):
+        return self._DOB 
 
+    @property
+    def gender(self):
+        return self._gender   
+
+    @property
+    def race(self):
+        return self._race 
+
+    @property
+    def marital_status(self):
+        return self._marital_status  
+
+    @property
+    def language(self):
+        return self._language 
+
+    @property
+    def poverty(self):
+        return self._poverty
 
     def __lt__(self, other):
         '''less than function'''

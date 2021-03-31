@@ -16,4 +16,10 @@ def test_Patient():
     result2 = a > 75.0
     assert result1 == 'The first patient is not older than the second patient'
     assert result2 == 'The age of patient is not larger than 75.0'
+    assert a.gender == 'Male'
     assert a.age == 48
+    assert a.DOB == '1973-08-16 10:58:34.413'
+    assert a.race == 'Asian'
+    assert a.marital_status == 'Single'
+    assert a.language == 'English'
+    assert a.poverty == 13.97
